@@ -1,3 +1,5 @@
+playGame();
+
 function getPlayerChoice() {
   let playerChoice = prompt("Enter your choice : Rock, Paper Or Scissors");
   return playerChoice.toLowerCase();
@@ -42,4 +44,5 @@ function playGame() {
   console.log("=== FINAL SCORE ===");
   console.log(`Player: ${humanScore} | Computer: ${computerScore}`);
 }
+
 
