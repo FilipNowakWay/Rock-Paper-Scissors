@@ -1,11 +1,10 @@
-let playerChoice = prompt("Enter your choice : Rock, Paper Or Scissors");
-while (!playerChoice) {
-  playerChoice = prompt("You have entered wrong value, try again: (Rock, Paper, Scissors)");
+function getPlayerChoice() {
+  let playerChoice = prompt("Enter your choice : Rock, Paper Or Scissors");
+  while (!playerChoice) {
+    playerChoice = prompt("You have entered wrong value, try again: (Rock, Paper, Scissors)");
+  }
+  return playerChoice.toLowerCase();
 }
-
-playerChoice = playerChoice.toLowerCase();
-console.log("variable (playerChoice): " + playerChoice);
-console.log(typeof playerChoice);
 
 function getComputerChoice() {
   let random = Math.floor(Math.random() * 3); //expected output : 0,1 or 2
@@ -20,4 +19,6 @@ function getComputerChoice() {
 }
 
 const computerChoice = getComputerChoice();
+const playerChoice = getPlayerChoice();
 console.log("variable (computerChoice): " + computerChoice);
+console.log("variable (playerChoice): " + playerChoice);
