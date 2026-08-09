@@ -1,8 +1,5 @@
 function getPlayerChoice() {
   let playerChoice = prompt("Enter your choice : Rock, Paper Or Scissors");
-  while (!playerChoice) {
-    playerChoice = prompt("You have entered wrong value, try again: (Rock, Paper, Scissors)");
-  }
   return playerChoice.toLowerCase();
 }
 
@@ -18,7 +15,31 @@ function getComputerChoice() {
   }
 }
 
-const computerChoice = getComputerChoice();
-const playerChoice = getPlayerChoice();
-console.log("variable (computerChoice): " + computerChoice);
-console.log("variable (playerChoice): " + playerChoice);
+function playGame() {
+  let humanScore = 0;
+  let computerScore = 0;
+
+  function playRound(playerSelection, computerSelection) {
+    console.log(`Player: ${playerSelection} | Computer: ${computerSelection}`);
+    if (computerSelection === playerSelection) console.log("A tie, no points awarded!");
+    else if ((playerSelection === "rock" && computerSelection === "scissors") ||
+      (playerSelection === "scissors" && computerSelection === "paper") ||
+      (playerSelection === "paper" && computerSelection === "rock")) {
+      console.log("Player Won round!");
+      ++humanScore;
+    }
+    else {
+      ++computerScore
+      console.log("Computer Won round!")
+    }
+  }
+  for (let round = 1; round <= 5; round++) {
+    console.log(`--- Round ${round} ---`);
+    let playerSelection = getPlayerChoice();
+    let computerSelection = getComputerChoice();
+    playRound(playerSelection, computerSelection);
+  }
+  console.log("=== FINAL SCORE ===");
+  console.log(`Player: ${humanScore} | Computer: ${computerScore}`);
+}
+
