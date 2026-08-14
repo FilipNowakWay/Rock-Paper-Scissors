@@ -35,14 +35,9 @@ function playGame() {
       console.log("Computer Won round!")
     }
   }
-  for (let round = 1; round <= 5; round++) {
-    console.log(`--- Round ${round} ---`);
-    let playerSelection = getPlayerChoice();
-    let computerSelection = getComputerChoice();
-    playRound(playerSelection, computerSelection);
-  }
-  console.log("=== FINAL SCORE ===");
-  console.log(`Player: ${humanScore} | Computer: ${computerScore}`);
+  let playerSelection = getPlayerChoice();
+  let computerSelection = getComputerChoice();
+  playRound(playerSelection, computerSelection);
 }
 
 
