@@ -1,6 +1,7 @@
 body {
   background: #EEAECA;
   background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+  font-family: "Arimo", sans-serif;
 }
 
 .container {
@@ -8,10 +9,9 @@ body {
   height: 100vh;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 50px;
-
-
+  flex-direction: column;
+  flex-wrap: warp;
+  gap: 100px;
 }
 
 button {
@@ -26,10 +26,38 @@ button {
   border-style: none;
   cursor: pointer;
   transition: transform 0.3s ease;
-  background-color: rgba(148, 187, 233, .35);
+  background-color: rgba(148, 187, 233, 0.35)
 }
 
 button:hover {
-  /* Scale the element up by 20% (1.2 times its original size) */
   transform: scale(1.2);
+}
+
+.resaults {
+  background-color: rgba(238, 187, 253, 0.25);
+  padding: 30px;
+  margin: 20px;
+  border-radius: 20px;
+  max-width: 400px;
+  font-size: 30px;
+}
+
+p.resaults {
+  margin: 0;
+  padding: 0;
+}
+
+.choiceBtns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  /* Prevents your hover scale effect from working */
 }
