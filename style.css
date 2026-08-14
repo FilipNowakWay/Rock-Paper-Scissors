@@ -8,6 +8,7 @@ body {
   height: 100vh;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   gap: 50px;
 
 
@@ -17,7 +18,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0;
+  margin: 20px;
   font-size: 80px;
   padding: 80px;
   height: 80px;
