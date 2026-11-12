@@ -1,48 +1,62 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Arimo", sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #eef4ff, #fdf1fa);
+  color: #1f2937;
 }
 
 .container {
   display: flex;
-  height: 100vh;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  flex-wrap: warp;
-  gap: 100px;
+  gap: 40px;
+  padding: 40px 24px;
+  text-align: center;
 }
 
 button {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px;
-  font-size: 80px;
-  padding: 80px;
-  height: 80px;
+  font-family: inherit;
+  border: none;
   border-radius: 20px;
-  border-style: none;
   cursor: pointer;
-  transition: transform 0.3s ease;
-  background-color: rgba(148, 187, 233, 0.35)
+  background-color: rgba(148, 187, 233, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
-  transform: scale(1.2);
+  transform: translateY(-3px) scale(1.05);
 }
 
-.resaults {
-  background-color: rgba(238, 187, 253, 0.25);
-  padding: 30px;
-  margin: 20px;
-  border-radius: 20px;
-  max-width: 400px;
-  font-size: 30px;
+button:active {
+  transform: scale(0.98);
 }
 
-p.resaults {
+.Btn {
+  padding: 16px 40px;
+  font-size: 22px;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(148, 187, 233, 0.45);
+}
+
+.resaultsText {
   margin: 0;
-  padding: 0;
+  padding: 14px 32px;
+  border-radius: 999px;
+  background-color: rgba(238, 187, 253, 0.25);
+  font-size: 24px;
+  font-weight: 600;
 }
 
 .choiceBtns {
@@ -50,7 +64,31 @@ p.resaults {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 24px;
+}
+
+.choiceBtns button {
+  width: 120px;
+  height: 120px;
+  padding: 0;
+  font-size: 56px;
+}
+
+.victoryMsg:has(.victoryMsgText:empty),
+.restartBtn:empty {
+  display: none;
+}
+
+.victoryMsgText {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.restartBtn button {
+  padding: 14px 32px;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 button:disabled {
@@ -58,4 +96,29 @@ button:disabled {
   cursor: not-allowed;
   transform: none !important;
   /* Prevents your hover scale effect from working */
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .container {
+    gap: 28px;
+    padding: 28px 16px;
+  }
+
+  .resaultsText {
+    font-size: 20px;
+  }
+
+  .choiceBtns {
+    gap: 16px;
+  }
+
+  .choiceBtns button {
+    width: 96px;
+    height: 96px;
+    font-size: 44px;
+  }
 }

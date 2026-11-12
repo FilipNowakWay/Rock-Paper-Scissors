@@ -1,104 +1,182 @@
 const choices = ["rock", "paper", "scissors"];
-const buttons = document.querySelectorAll(".container button");
-const resaultsPara = document.querySelector('.resaultsText');
-const victoryMsgText = document.querySelector('.victoryMsgText');
-const restartBtnBox = document.querySelector('.restartBtn');
+
+const startBtn = document.querySelector("#startBtn");
+const choiceBtns = document.querySelector(".choiceBtns");
+const resaultsMsg = document.querySelector(".resaultsMsg");
+const roundMsg = document.querySelector(".roundMsg");
+const playerPoints = document.querySelector(".playerPoints");
+const restartBtn = document.querySelector("#restartBtn");
 
 class Player {
+  #score = 0;
   constructor(name = "Player") {
-    this.name = name;
-    this.score = 0;
-    this.choice = "";
+    this._name = name;
+    this._choice = "";
   }
-  // Manual
-  setChoice(choice) {
-    this.choice = choice;
+
+  addPoint() {
+    this.#score++;
+  }
+
+  get score() {
+    return this.#score;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  get choice() {
+    return this._choice;
+  }
+
+  set choice(choice) {
+    this._choice = choice;
   }
 }
+
 class Computer extends Player {
-  constructor(name = "CPU") {
+  constructor(name = "Bot") {
     super(name);
   }
-  // Random Pick
-  pickRandomChoice(options) {
+
+  randomChoice(options) {
     const randomIndex = Math.floor(Math.random() * options.length);
-    this.choice = options[randomIndex];
+    this._choice = options[randomIndex];
   }
 }
 
-const bot = new Computer("CPU-Bot!");
-const player = new Player("HUMAN-Player!");
+let bot = new Computer();
+let player = new Player();
 
-// // 2. Play a single round
-// function playRound(playerSelection, computerSelection) {
-//   console.log(`Player: ${playerSelection} | Computer: ${computerSelection}`);
-//
-//   if (computerSelection === playerSelection) {
-//     console.log("A tie, no points awarded!");
-//   } else if (
-//     (playerSelection === "rock" && computerSelection === "scissors") ||
-//     (playerSelection === "scissors" && computerSelection === "paper") ||
-//     (playerSelection === "paper" && computerSelection === "rock")
-//   ) {
-//     console.log("Player Won round!");
-//     humanScore++;
-//   } else {
-//     computerScore++;
-//     console.log("Computer Won round!");
-//   }
-//
-//   resaultsPara.textContent = `Player: ${humanScore} | Computer: ${computerScore}`;
-//
-//   // Check if someone won the game (first to 5)
-//   if (humanScore >= 5 || computerScore >= 5) {
-//
-//     // Disable all choice buttons (loop through them since buttons is a NodeList)
-//     buttons.forEach(button => {
-//       button.disabled = true;
-//     });
-//
-//     if (humanScore >= 5) {
-//       victoryMsgText.textContent = "🎉 Congratulations! You won the game!";
-//     } else {
-//       victoryMsgText.textContent = "💻 Game Over! The computer won the game.";
-//     }
-//
-//     // Check if restart button already exists
-//     if (!document.querySelector('.restart-btn')) {
-//       const restartBtn = document.createElement('button');
-//       restartBtn.classList.add('restart-btn');
-//       restartBtn.textContent = 'Restart';
-//       restartBtnBox.appendChild(restartBtn);
-//
-//       restartBtn.addEventListener('click', () => {
-//         resetGame(restartBtn);
-//       });
-//     }
-//   }
-// }
-//
-// // Reset scores and UI after someone wins
-// function resetGame(restartBtn) {
-//   humanScore = 0;
-//   computerScore = 0;
-//
-//   // Re-enable all choice buttons
-//   buttons.forEach(button => {
-//     button.disabled = false;
-//   });
-//
-//   restartBtn.remove();
-//   victoryMsgText.textContent = '';
-//   resaultsPara.textContent = 'Player: 0 | Computer: 0';
-//   console.log("--- New Game Started ---");
-// }
+const game = (() => {
+  let gameFinished = false;
+
+  function reset() {
+    gameFinished = false;
+    winner = "";
+    bot = new Computer();
+    player = new Player();
+    display.toggleChoiceBtns();
+    display.playerPointsDisplay();
+  }
+
+  function round() {
+    if (!gameFinished) {
+      bot.randomChoice(choices);
+      if (player.choice != "" && bot.choice != "") {
+        console.log("Starting Round");
+        if (player.choice === bot.choice) {
+          console.log("A tie, no points awarded!");
+          display.roundTieMsgDisplay();
+        } else if (
+          (player.choice === "rock" && bot.choice === "scissors") ||
+          (player.choice === "scissors" && bot.choice === "paper") ||
+          (player.choice === "paper" && bot.choice === "rock")
+        ) {
+          player.addPoint();
+          display.roundMsgDisplay(player.name);
+          // console.log("Player Won round!");
+          // console.log(player);
+        } else {
+          bot.addPoint();
+          display.roundMsgDisplay(bot.name);
+          //console.log("Computer Won round!");
+          //console.log(bot);
+        }
+      }
+      checkWinner();
+    }
+  }
+
+  function checkWinner() {
+    display.playerPointsDisplay();
+    if (player.score == 3) {
+      gameFinished = true;
+      display.winningMsgDisplay(player.name);
+    } else if (bot.score == 3) {
+      gameFinished = true;
+      display.winningMsgDisplay(bot.name);
+    }
+  }
+
+  return { reset, round, checkWinner };
+})();
+
+// ---
+// Display
+// ---
+
+const display = (() => {
+  function roundMsgDisplay(winner) {
+    roundMsg.classList.remove("hidden");
+    roundMsg.textContent = `The round won ${winner}. Player: ${player.choice} | Bot: ${bot.choice}`;
+  }
+
+  function roundTieMsgDisplay() {
+    roundMsg.classList.remove("hidden");
+    roundMsg.textContent = `The round was a Tie, no points awarded! Player: ${player.choice} | Bot: ${bot.choice}`;
+  }
+
+  function winningMsgDisplay(winner) {
+    resaultsMsg.classList.remove("hidden");
+    resaultsMsg.textContent = `${winner === player.name ? "🎉 Congratulations! You won the game!" : "💻 Game Over! The computer won the game."}`;
+    toggleChoiceBtns();
+    roundMsg.classList.add("hidden");
+    restartBtn.classList.remove("hidden");
+  }
+
+  function playerPointsDisplay() {
+    playerPoints.textContent = `Player points: ${player.score} | Bot points ${bot.score}`;
+  }
+
+  function toggleChoiceBtns() {
+    if (choiceBtns.classList.contains("hidden")) {
+      choiceBtns.classList.remove("hidden");
+      playerPoints.classList.remove("hidden");
+    } else {
+      choiceBtns.classList.add("hidden");
+      playerPoints.classList.add("hidden");
+    }
+  }
+
+  return {
+    winningMsgDisplay,
+    roundMsgDisplay,
+    roundTieMsgDisplay,
+    toggleChoiceBtns,
+    playerPointsDisplay,
+  };
+})();
+
+const eventLiseners = (() => {
+  function choiceBtnsEvent() {
+    // Attach event listeners to choice buttons
+    choiceBtns.addEventListener("click", (e) => {
+      if (e.target.dataset.choice) {
+        player.choice = e.target.dataset.choice;
+      } else return;
+      game.round();
+    });
+  }
+  return { choiceBtnsEvent };
+})();
 
 
-
-// Attach event listeners to choice buttons
-buttons.forEach(button => {
-  button.addEventListener('click', () => {
-    player.setChoice(button.dataset.choice);
-    console.log(player.choice);
-  });
+// Start Button
+startBtn.addEventListener("click", (e) => {
+  startBtn.classList.add("hidden");
+  display.toggleChoiceBtns();
+  eventLiseners.choiceBtnsEvent();
+  playerPoints.classList.remove("hidden");
+  display.playerPointsDisplay();
 });
+
+// Restart Button
+restartBtn.addEventListener("click", (e) => {
+  restartBtn.classList.add("hidden");
+  resaultsMsg.classList.add("hidden");
+  playerPoints.classList.add("hidden");
+  game.reset();
+});
+
