@@ -5,6 +5,8 @@ const choiceBtns = document.querySelector(".choiceBtns");
 const resaultsMsg = document.querySelector(".resaultsMsg");
 const roundMsg = document.querySelector(".roundMsg");
 const playerPoints = document.querySelector(".playerPoints");
+const playerScore = document.querySelector("#playerScore");
+const botScore = document.querySelector("#botScore");
 const restartBtn = document.querySelector("#restartBtn");
 
 class Player {
@@ -54,7 +56,6 @@ const game = (() => {
 
   function reset() {
     gameFinished = false;
-    winner = "";
     bot = new Computer();
     player = new Player();
     display.toggleChoiceBtns();
@@ -110,12 +111,13 @@ const game = (() => {
 const display = (() => {
   function roundMsgDisplay(winner) {
     roundMsg.classList.remove("hidden");
-    roundMsg.textContent = `The round won ${winner}. Player: ${player.choice} | Bot: ${bot.choice}`;
+    const result = winner === player.name ? "You win the round" : "Bot wins the round";
+    roundMsg.textContent = `${result}! You: ${player.choice} | Bot: ${bot.choice}`;
   }
 
   function roundTieMsgDisplay() {
     roundMsg.classList.remove("hidden");
-    roundMsg.textContent = `The round was a Tie, no points awarded! Player: ${player.choice} | Bot: ${bot.choice}`;
+    roundMsg.textContent = `It's a tie — no points awarded! You: ${player.choice} | Bot: ${bot.choice}`;
   }
 
   function winningMsgDisplay(winner) {
@@ -127,7 +129,8 @@ const display = (() => {
   }
 
   function playerPointsDisplay() {
-    playerPoints.textContent = `Player points: ${player.score} | Bot points ${bot.score}`;
+    playerScore.textContent = player.score;
+    botScore.textContent = bot.score;
   }
 
   function toggleChoiceBtns() {

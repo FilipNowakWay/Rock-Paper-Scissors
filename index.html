@@ -4,35 +4,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Rock Paper Scissors</title>
+  <meta name="description" content="A simple Rock Paper Scissors game. First to 3 points wins!">
   <script src="script.js" defer></script>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
 </head>
 
 <body>
-  <div class="container">
+  <main class="container">
 
-    <p class="roundMsg hidden"></p>
-    <p class="resaultsMsg hidden"></p>
-    <p class="playerPoints hidden"></p>
+    <header class="game-header">
+      <h1 class="title">
+        <span class="title-rock">Rock</span>
+        <span class="title-paper">Paper</span>
+        <span class="title-scissors">Scissors</span>
+      </h1>
+      <p class="tagline">First to 3 points wins</p>
+    </header>
+
+    <section class="playerPoints hidden" aria-label="Scoreboard">
+      <div class="score-card score-player">
+        <span class="score-name">You</span>
+        <span class="score-value" id="playerScore">0</span>
+      </div>
+      <span class="vs">vs</span>
+      <div class="score-card score-bot">
+        <span class="score-name">Bot</span>
+        <span class="score-value" id="botScore">0</span>
+      </div>
+    </section>
 
     <button id="startBtn" class="Btn">Start Game</button>
 
     <div class="choiceBtns hidden">
-      <button data-choice="paper" >📄</button>
-      <button data-choice="rock" >🪨</button>
-      <button data-choice="scissors" >✂️</button>
+      <button data-choice="rock">🪨</button>
+      <button data-choice="paper">📄</button>
+      <button data-choice="scissors">✂️</button>
     </div>
 
-    <p class="victoryMsgText"></p>
+    <p class="roundMsg hidden" aria-live="polite"></p>
+    <p class="resaultsMsg hidden" aria-live="polite"></p>
 
     <button class="Btn hidden" id="restartBtn">Play Again!</button>
 
-  </div>
+  </main>
 </body>
+
 </html>
